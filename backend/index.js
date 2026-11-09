@@ -3,7 +3,8 @@ require("dotenv").config();
 const pool = require("./config/db");
 
 // ---- fail fast on missing configuration ------------------------------
-const missing = ["JWT_SECRET", "DB_PASSWORD"].filter((key) => !process.env[key]);
+const missing = ["JWT_SECRET", "DATABASE_URL"].filter((key) => !process.env[key]);
+// const missing = ["JWT_SECRET", "DB_PASSWORD"].filter((key) => !process.env[key]);
 if (missing.length > 0) {
     console.error(`❌ Missing required environment variable(s): ${missing.join(", ")}`);
     console.error("   Copy .env.example to .env and fill in the values.");
