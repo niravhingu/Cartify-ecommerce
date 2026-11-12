@@ -30,10 +30,11 @@ app.use(securityHeaders);
 app.use(
     cors({
         origin(origin, callback) {
-            // no Origin header = curl / server-to-server / same-origin
-            if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-            return callback(new Error("Not allowed by CORS"));
-        },
+    // no Origin header = curl / server-to-server / same-origin
+    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    console.warn(`CORS blocked origin: ${origin} | allowed: ${allowedOrigins.join(", ")}`);
+    return callback(new Error("Not allowed by CORS"));
+},
         credentials: true,
     })
 );
