@@ -10,13 +10,18 @@ const TOKEN_TTL_MS = 60 * 60 * 1000; // 1 hour
 // reveal which emails are registered.
 const DUMMY_HASH = bcrypt.hashSync("cartify-dummy-password", 10);
 
-const cookieOptions = () => ({
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-});
+const cookieOptions = () => {
+    const isProd = process.env.NODE_ENV === "production";
 
+    return {
+        httpOnly: true,
+        // Production mein frontend aur backend alag domain par hote hain, isliye
+        // browser cookie tabhi bhejta hai jab SameSite=None ho (iske liye Secure chahiye).
+        secure: isProd,
+        sameSite: isProd ? "none" : "lax",
+        path: "/",
+    };
+};
 const publicUser = (row) => ({
     id: row.id,
     name: row.name,
